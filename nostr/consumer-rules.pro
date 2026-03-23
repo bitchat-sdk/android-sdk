@@ -1,0 +1,1 @@
+# Nostr library ProGuard rules
