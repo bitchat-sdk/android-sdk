@@ -231,7 +231,6 @@ class NostrDirectMessageHandler(
                         recipientNickname = state.getNicknameValue(),
                         senderPeerID = convKey
                     )
-                    Log.d(TAG, "📄 Saved Nostr encrypted incoming file to $savedPath (msgId=$uniqueMsgId)")
                     withContext(Dispatchers.Main) {
                         privateChatManager.handleIncomingPrivateMessage(
                             message,
@@ -240,7 +239,7 @@ class NostrDirectMessageHandler(
                         )
                     }
                 } else {
-                    Log.w(TAG, "⚠️ Failed to decode Nostr file transfer from $convKey")
+                    Log.w(TAG, "�️ Failed to decode Nostr file transfer from $convKey")
                 }
             }
             NoisePayloadType.VERIFY_CHALLENGE,

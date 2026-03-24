@@ -435,7 +435,7 @@ object BinaryProtocol {
                 if (compressedSize > 0) {
                     val ratio = originalSize.toDouble() / compressedSize.toDouble()
                     if (ratio > 50_000.0) {
-                        Log.w("BinaryProtocol", "🚫 Suspicious compression ratio: ${ratio}:1")
+                        Log.w("BinaryProtocol", "Suspicious compression ratio: ${ratio}:1")
                         return null
                     }
                 }

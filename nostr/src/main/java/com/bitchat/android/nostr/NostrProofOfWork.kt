@@ -63,7 +63,6 @@ object NostrProofOfWork {
         val actualDifficulty = calculateDifficulty(event.id)
         val committedDifficulty = getCommittedDifficulty(event)
         
-        Log.d(TAG, "Validating PoW: actual=$actualDifficulty, required=$minimumDifficulty, committed=$committedDifficulty")
         
         // Check if actual difficulty meets requirement
         if (actualDifficulty < minimumDifficulty) {
@@ -94,7 +93,6 @@ object NostrProofOfWork {
     ): NostrEvent? = withContext(Dispatchers.Default) {
         if (targetDifficulty <= 0) return@withContext event
         
-        Log.d(TAG, "Starting PoW mining for difficulty $targetDifficulty...")
         val startTime = System.currentTimeMillis()
         
         var nonce = Random.nextLong(0, 1_000_000).toString()
@@ -110,7 +108,7 @@ object NostrProofOfWork {
             
             if (actualDifficulty >= targetDifficulty) {
                 val timeElapsed = System.currentTimeMillis() - startTime
-                Log.i(TAG, "✅ PoW mining successful! Difficulty: $actualDifficulty, iterations: $iterations, time: ${timeElapsed}ms")
+                Log.i(TAG, "PoW mining successful! Difficulty: $actualDifficulty, iterations: $iterations, time: ${timeElapsed}ms")
                 
                 // Return the event with the computed ID
                 return@withContext eventWithNonce.copy(id = eventId)
@@ -123,12 +121,11 @@ object NostrProofOfWork {
             // Log progress every 100,000 iterations
             if (iterations % 100_000 == 0) {
                 val timeElapsed = System.currentTimeMillis() - startTime
-                Log.d(TAG, "PoW mining progress: $iterations iterations, ${timeElapsed}ms elapsed")
             }
         }
         
         val timeElapsed = System.currentTimeMillis() - startTime
-        Log.w(TAG, "❌ PoW mining failed after $maxIterations iterations (${timeElapsed}ms)")
+        Log.w(TAG, "PoW mining failed after $maxIterations iterations (${timeElapsed}ms)")
         return@withContext null
     }
     

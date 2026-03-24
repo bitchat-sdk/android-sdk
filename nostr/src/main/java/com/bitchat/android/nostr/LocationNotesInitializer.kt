@@ -24,11 +24,10 @@ object LocationNotesInitializer {
                 subscribe = { filter, id, handler ->
                     // CRITICAL FIX: Extract geohash properly from filter using getGeohash() method
                     val geohashFromFilter = filter.getGeohash() ?: run {
-                        Log.e(TAG, "❌ Cannot extract geohash from filter for location notes")
+                        Log.e(TAG, "Cannot extract geohash from filter for location notes")
                         return@initialize id // Return subscription ID even on error
                     }
                     
-                    Log.d(TAG, "📍 Location Notes subscribing to geohash: $geohashFromFilter")
                     
                     NostrRelayManager.getInstance(context).subscribeForGeohash(
                         geohash = geohashFromFilter,
@@ -53,10 +52,9 @@ object LocationNotesInitializer {
                     NostrIdentityBridge.deriveIdentity(geohash, context)
                 }
             )
-            Log.d(TAG, "✅ Location Notes Manager initialized")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "❌ Failed to initialize Location Notes Manager: ${e.message}", e)
+            Log.e(TAG, "Failed to initialize Location Notes Manager: ${e.message}", e)
             false
         }
     }

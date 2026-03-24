@@ -9,4 +9,5 @@ captures/
 .cxx/
 *.jks
 *.keystore
+*.apk
 .DS_Store

@@ -27,7 +27,6 @@ data class NostrIdentity(
             val (privateKeyHex, publicKeyHex) = NostrCrypto.generateKeyPair()
             val npub = Bech32.encode("npub", publicKeyHex.hexToByteArrayLocal())
             
-            Log.d(TAG, "Generated new Nostr identity: npub=$npub")
             
             return NostrIdentity(
                 privateKeyHex = privateKeyHex,
@@ -157,7 +156,6 @@ object NostrIdentityBridge {
                 // Cache the result for future UI responsiveness
                 geohashIdentityCache[forGeohash] = identity
                 
-                Log.d(TAG, "Derived geohash identity for $forGeohash (iteration $i)")
                 return identity
             }
         }
@@ -172,7 +170,6 @@ object NostrIdentityBridge {
         // Cache the fallback result too
         geohashIdentityCache[forGeohash] = fallbackIdentity
         
-        Log.d(TAG, "Used fallback identity derivation for $forGeohash")
         return fallbackIdentity
     }
     
@@ -194,7 +191,6 @@ object NostrIdentityBridge {
         // For now, we'll store this as a preference since it's just for favorites mapping
         // In a full implementation, you'd want a proper association storage system
         
-        Log.d(TAG, "Associated Nostr pubkey ${nostrPubkey.take(16)}... with Noise key")
     }
     
     /**
@@ -242,7 +238,6 @@ object NostrIdentityBridge {
             // Use public methods instead of reflection to access the encrypted preferences
             stateManager.storeSecureValue(NOSTR_PRIVATE_KEY, privateKeyHex)
                 
-            Log.d(TAG, "Saved Nostr private key to secure storage")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to save Nostr private key: ${e.message}")
             throw e
@@ -264,7 +259,6 @@ object NostrIdentityBridge {
             val seedBase64 = android.util.Base64.encodeToString(seed, android.util.Base64.DEFAULT)
             stateManager.storeSecureValue(DEVICE_SEED_KEY, seedBase64)
                 
-            Log.d(TAG, "Generated new device seed for geohash identity derivation")
             return seed
         } catch (e: Exception) {
             Log.e(TAG, "Failed to get/create device seed: ${e.message}")

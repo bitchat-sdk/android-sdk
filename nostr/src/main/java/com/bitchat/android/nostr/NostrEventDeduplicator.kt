@@ -69,7 +69,6 @@ class NostrEventDeduplicator(
         head.next = tail
         tail.prev = head
         
-        Log.d(TAG, "Initialized NostrEventDeduplicator with capacity: $maxCapacity")
     }
     
     /**
@@ -154,7 +153,6 @@ class NostrEventDeduplicator(
             duplicateCount = 0L
             evictionCount = 0L
             
-            Log.d(TAG, "Cleared all cached event IDs")
         }
     }
     

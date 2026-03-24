@@ -120,7 +120,6 @@ class LocationNotesManager private constructor() {
         val normalized = newGeohash.lowercase()
         
         if (_geohash.value == normalized) {
-            Log.d(TAG, "Geohash unchanged, skipping: $normalized")
             return
         }
         
@@ -130,7 +129,6 @@ class LocationNotesManager private constructor() {
             return
         }
         
-        Log.d(TAG, "Setting geohash: $normalized")
         
         // Cancel existing subscription
         cancel()
@@ -174,7 +172,6 @@ class LocationNotesManager private constructor() {
             return
         }
         
-        Log.d(TAG, "Refreshing notes for geohash: $currentGeohash")
         
         // Cancel and restart subscriptions for current ±1 set
         cancel()
@@ -229,7 +226,6 @@ class LocationNotesManager private constructor() {
             return
         }
         
-        Log.d(TAG, "Sending note to geohash: $currentGeohash via ${relays.size} geo relays")
         
         scope.launch {
             try {
@@ -272,7 +268,6 @@ class LocationNotesManager private constructor() {
                     sendEventFunc?.invoke(event, relays)
                 }
                 
-                Log.d(TAG, "✅ Note sent successfully to ${relays.size} geo relays: ${event.id.take(16)}...")
                 
                 // Clear any error messages on successful send
                 _errorMessage.value = null
@@ -332,7 +327,6 @@ class LocationNotesManager private constructor() {
                 limit = 200
             )
             val subId = "location-notes-$gh"
-            Log.d(TAG, "📡 Subscribing to location notes: $subId")
             try {
                 val id = subscribe(filter, subId) { event -> handleEvent(event) }
                 subscriptionIDs[gh] = id
@@ -347,7 +341,6 @@ class LocationNotesManager private constructor() {
             if (!_initialLoadComplete.value!!) {
                 _initialLoadComplete.value = true
                 _state.value = State.READY
-                Log.d(TAG, "Initial load complete for geohash: $currentGeohash (${noteIDs.size} notes)")
             }
         }
     }
@@ -399,7 +392,6 @@ class LocationNotesManager private constructor() {
         val currentNotes = _notes.value ?: emptyList()
         _notes.value = (currentNotes + note).sortedByDescending { it.createdAt }
         
-        Log.d(TAG, "📥 Added note: ${note.displayName} - ${note.content.take(50)}")
         
         // Trim if exceeds max
         if (noteIDs.size > MAX_NOTES_IN_MEMORY) {
@@ -427,7 +419,6 @@ class LocationNotesManager private constructor() {
         noteIDs.clear()
         noteIDs.addAll(trimmed.map { it.id })
         
-        Log.d(TAG, "Trimmed notes to $MAX_NOTES_IN_MEMORY (removed ${currentNotes.size - trimmed.size})")
     }
     
     /**
@@ -444,7 +435,6 @@ class LocationNotesManager private constructor() {
         if (subscriptionIDs.isNotEmpty()) {
             subscriptionIDs.values.forEach { subId ->
                 try {
-                    Log.d(TAG, "🚫 Canceling subscription: $subId")
                     unsubscribeFunc?.invoke(subId)
                 } catch (_: Exception) { }
             }

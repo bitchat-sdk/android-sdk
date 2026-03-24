@@ -41,7 +41,6 @@ class NostrClient private constructor(private val context: Context) {
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     
     init {
-        Log.d(TAG, "Initializing Nostr client")
     }
     
     /**
@@ -55,19 +54,19 @@ class NostrClient private constructor(private val context: Context) {
                 
                 if (currentIdentity != null) {
                     _currentNpub.value = currentIdentity!!.npub
-                    Log.i(TAG, "✅ Nostr identity loaded: ${currentIdentity!!.getShortNpub()}")
+                    Log.i(TAG, "Nostr identity loaded: ${currentIdentity!!.getShortNpub()}")
                     
                     // Connect to relays
                     relayManager.connect()
                     
                     _isInitialized.value = true
-                    Log.i(TAG, "✅ Nostr client initialized successfully")
+                    Log.i(TAG, "Nostr client initialized successfully")
                 } else {
-                    Log.e(TAG, "❌ Failed to load/create Nostr identity")
+                    Log.e(TAG, "Failed to load/create Nostr identity")
                     _isInitialized.value = false
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Failed to initialize Nostr client: ${e.message}")
+                Log.e(TAG, "Failed to initialize Nostr client: ${e.message}")
                 _isInitialized.value = false
             }
         }
@@ -77,7 +76,6 @@ class NostrClient private constructor(private val context: Context) {
      * Shutdown the client and disconnect from relays
      */
     fun shutdown() {
-        Log.d(TAG, "Shutting down Nostr client")
         relayManager.disconnect()
         _isInitialized.value = false
     }
@@ -121,11 +119,11 @@ class NostrClient private constructor(private val context: Context) {
                     relayManager.sendEvent(wrap)
                 }
                 
-                Log.i(TAG, "📤 Sent private message to ${recipientNpub.take(16)}...")
+                Log.i(TAG, "� Sent private message to ${recipientNpub.take(16)}...")
                 onSuccess?.invoke()
                 
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Failed to send private message: ${e.message}")
+                Log.e(TAG, "Failed to send private message: ${e.message}")
                 onError?.invoke("Failed to send message: ${e.message}")
             }
         }
@@ -152,7 +150,7 @@ class NostrClient private constructor(private val context: Context) {
             }
         })
         
-        Log.i(TAG, "🔑 Subscribed to private messages for: ${identity.getShortNpub()}")
+        Log.i(TAG, "� Subscribed to private messages for: ${identity.getShortNpub()}")
     }
     
     /**
@@ -180,11 +178,11 @@ class NostrClient private constructor(private val context: Context) {
                 
                 relayManager.sendEvent(event)
                 
-                Log.i(TAG, "📤 Sent geohash message to #$geohash")
+                Log.i(TAG, "� Sent geohash message to #$geohash")
                 onSuccess?.invoke()
                 
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Failed to send geohash message: ${e.message}")
+                Log.e(TAG, "Failed to send geohash message: ${e.message}")
                 onError?.invoke("Failed to send message: ${e.message}")
             }
         }
@@ -209,7 +207,7 @@ class NostrClient private constructor(private val context: Context) {
             }
         })
         
-        Log.i(TAG, "🌍 Subscribed to geohash channel: #$geohash")
+        Log.i(TAG, "� Subscribed to geohash channel: #$geohash")
     }
     
     /**
@@ -263,7 +261,6 @@ class NostrClient private constructor(private val context: Context) {
                     "npub_decode_error"
                 }
                 
-                Log.d(TAG, "📥 Received private message from ${senderNpub.take(16)}...")
                 
                 // Dispatch to main thread for handler
                 withContext(Dispatchers.Main) {
@@ -286,16 +283,16 @@ class NostrClient private constructor(private val context: Context) {
             val powSettings = PoWPreferenceManager.getCurrentSettings()
             if (powSettings.enabled && powSettings.difficulty > 0) {
                 if (!NostrProofOfWork.validateDifficulty(event, powSettings.difficulty)) {
-                    Log.w(TAG, "🚫 Rejecting geohash event ${event.id.take(8)}... due to insufficient PoW (required: ${powSettings.difficulty})")
+                    Log.w(TAG, "Rejecting geohash event ${event.id.take(8)}... due to insufficient PoW (required: ${powSettings.difficulty})")
                     return
                 }
-                Log.v(TAG, "✅ PoW validation passed for geohash event ${event.id.take(8)}...")
+                Log.v(TAG, "PoW validation passed for geohash event ${event.id.take(8)}...")
             }
             
             // Extract nickname from tags
             val nickname = event.tags.find { it.size >= 2 && it[0] == "n" }?.get(1)
             
-            Log.v(TAG, "📥 Received geohash message from ${event.pubkey.take(16)}...")
+            Log.v(TAG, "Received geohash message from ${event.pubkey.take(16)}...")
             
             // Dispatch to main thread for handler
             withContext(Dispatchers.Main) {

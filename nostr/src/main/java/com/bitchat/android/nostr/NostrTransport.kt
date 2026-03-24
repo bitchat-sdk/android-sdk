@@ -57,7 +57,7 @@ class NostrTransport(
                 // Resolve favorite by full noise key or by short peerID fallback
                 var recipientNostrPubkey: String? = null
                 
-                // Resolve by peerID first (new peerID竊地pub index), then fall back to noise key mapping
+                // Resolve by peerID first (new peerID�地pub index), then fall back to noise key mapping
                 recipientNostrPubkey = resolveNostrPublicKey(to)
                 
                 if (recipientNostrPubkey == null) {
@@ -71,7 +71,6 @@ class NostrTransport(
                     return@launch
                 }
                 
-                Log.d(TAG, "NostrTransport: preparing PM to ${recipientNostrPubkey.take(16)}... for peerID ${to.take(8)}... id=${messageID.take(8)}...")
                 
                 // Convert recipient npub -> hex (x-only)
                 val recipientHex = try {
@@ -115,7 +114,6 @@ class NostrTransport(
                 )
                 
                 giftWraps.forEach { event ->
-                    Log.d(TAG, "NostrTransport: sending PM giftWrap id=${event.id.take(16)}...")
                     NostrRelayManager.getInstance(context).sendEvent(event)
                 }
                 
@@ -218,7 +216,6 @@ class NostrTransport(
                     return@launch
                 }
                 
-                Log.d(TAG, "NostrTransport: preparing READ ack for id=${item.receipt.originalMessageID.take(8)}... to ${recipientNostrPubkey.take(16)}...")
                 
                 // Convert recipient npub -> hex
                 val recipientHex = try {
@@ -253,7 +250,6 @@ class NostrTransport(
                 )
                 
                 giftWraps.forEach { event ->
-                    Log.d(TAG, "NostrTransport: sending READ ack giftWrap id=${event.id.take(16)}...")
                     NostrRelayManager.getInstance(context).sendEvent(event)
                 }
                 
@@ -295,7 +291,6 @@ class NostrTransport(
                 
                 val content = if (isFavorite) "[FAVORITED]:${senderIdentity.npub}" else "[UNFAVORITED]:${senderIdentity.npub}"
                 
-                Log.d(TAG, "NostrTransport: preparing FAVORITE($isFavorite) to ${recipientNostrPubkey.take(16)}...")
                 
                 // Convert recipient npub -> hex
                 val recipientHex = try {
@@ -325,7 +320,6 @@ class NostrTransport(
                 )
                 
                 giftWraps.forEach { event ->
-                    Log.d(TAG, "NostrTransport: sending favorite giftWrap id=${event.id.take(16)}...")
                     NostrRelayManager.getInstance(context).sendEvent(event)
                 }
                 
@@ -354,7 +348,6 @@ class NostrTransport(
                     return@launch
                 }
                 
-                Log.d(TAG, "NostrTransport: preparing DELIVERED ack for id=${messageID.take(8)}... to ${recipientNostrPubkey.take(16)}...")
                 
                 val recipientHex = try {
                     val (hrp, data) = Bech32.decode(recipientNostrPubkey)
@@ -383,7 +376,6 @@ class NostrTransport(
                 )
                 
                 giftWraps.forEach { event ->
-                    Log.d(TAG, "NostrTransport: sending DELIVERED ack giftWrap id=${event.id.take(16)}...")
                     NostrRelayManager.getInstance(context).sendEvent(event)
                 }
                 
@@ -402,7 +394,6 @@ class NostrTransport(
     ) {
         transportScope.launch {
             try {
-                Log.d(TAG, "GeoDM: send DELIVERED -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}...")
                 
                 val embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(
                     type = NoisePayloadType.DELIVERED,
@@ -437,7 +428,6 @@ class NostrTransport(
     ) {
         transportScope.launch {
             try {
-                Log.d(TAG, "GeoDM: send READ -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}...")
                 
                 val embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(
                     type = NoisePayloadType.READ_RECEIPT,
@@ -496,7 +486,6 @@ class NostrTransport(
             try {
                 if (toRecipientHex.isEmpty()) return@launch
 
-                Log.d(
                     TAG,
                     "GeoDM: send PM -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}... geohash=$geohash"
                 )
@@ -518,7 +507,6 @@ class NostrTransport(
                 )
 
                 giftWraps.forEach { event ->
-                    Log.d(TAG, "NostrTransport: sending geohash PM giftWrap id=${event.id.take(16)}...")
                     NostrRelayManager.registerPendingGiftWrap(event.id)
                     NostrRelayManager.getInstance(context).sendEvent(event)
                 }
@@ -535,7 +523,7 @@ class NostrTransport(
      */
     private fun resolveNostrPublicKey(peerID: String): String? {
         try {
-            // 1) Fast path: direct peerID竊地pub mapping (mutual favorites after mesh mapping)
+            // 1) Fast path: direct peerID�地pub mapping (mutual favorites after mesh mapping)
             com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkeyForPeerID(peerID)?.let { return it }
 
             // 2) Legacy path: resolve by noise public key association

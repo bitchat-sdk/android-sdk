@@ -1,7 +1,6 @@
 package com.bitchat.android.nostr
 
 import android.app.Application
-import android.util.Log
 import com.bitchat.android.ui.ChatState
 import com.bitchat.android.ui.GeoPerson
 import java.util.Date

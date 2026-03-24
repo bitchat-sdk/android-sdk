@@ -24,7 +24,6 @@ object NostrProtocol {
         recipientPubkey: String,
         senderIdentity: NostrIdentity
     ): List<NostrEvent> {
-        Log.d(TAG, "Creating private message for recipient: ${recipientPubkey.take(16)}...")
         
         // 1. Create the rumor (unsigned kind 14) with p-tag
         val rumorBase = NostrEvent(
@@ -50,7 +49,6 @@ object NostrProtocol {
             seal = sealedEvent,
             recipientPubkey = recipientPubkey
         )
-        Log.d(TAG, "Created gift wrap: toRecipient=${giftWrapToRecipient.id.take(16)}...")
         return listOf(giftWrapToRecipient)
     }
     
@@ -68,7 +66,7 @@ object NostrProtocol {
             // 1. Unwrap the gift wrap
             val seal = unwrapGiftWrap(giftWrap, recipientIdentity.privateKeyHex)
                 ?: run {
-                    Log.w(TAG, "❌ Failed to unwrap gift wrap")
+                    Log.w(TAG, "Failed to unwrap gift wrap")
                     return null
                 }
             
@@ -77,7 +75,7 @@ object NostrProtocol {
             // 2. Open the seal
             val rumor = openSeal(seal, recipientIdentity.privateKeyHex)
                 ?: run {
-                    Log.w(TAG, "❌ Failed to open seal")
+                    Log.w(TAG, "Failed to open seal")
                     return null
                 }
             
@@ -174,7 +172,6 @@ object NostrProtocol {
         // Check if Proof of Work is enabled
         val powSettings = PoWPreferenceManager.getCurrentSettings()
         if (powSettings.enabled && powSettings.difficulty > 0) {
-            Log.d(TAG, "PoW enabled for geohash event: difficulty=${powSettings.difficulty}")
             
             try {
                 // Start mining state for animated indicators
@@ -190,9 +187,8 @@ object NostrProtocol {
                 if (minedEvent != null) {
                     event = minedEvent
                     val actualDifficulty = NostrProofOfWork.calculateDifficulty(event.id)
-                    Log.d(TAG, "✅ PoW mining successful: target=${powSettings.difficulty}, actual=$actualDifficulty, nonce=${NostrProofOfWork.getNonce(event)}")
                 } else {
-                    Log.w(TAG, "❌ PoW mining failed, proceeding without PoW")
+                    Log.w(TAG, "PoW mining failed, proceeding without PoW")
                 }
             } finally {
                 // Always stop mining state when done (success or failure)
@@ -264,7 +260,6 @@ object NostrProtocol {
         giftWrap: NostrEvent,
         recipientPrivateKey: String
     ): NostrEvent? {
-        Log.d(TAG, "Unwrapping gift wrap; content prefix='${giftWrap.content.take(3)}' length=${giftWrap.content.length}")
         
         return try {
             val decrypted = NostrCrypto.decryptNIP44(
