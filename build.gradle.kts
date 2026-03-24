@@ -15,6 +15,6 @@ ext {
     set("POM_SCM_DEV_CONNECTION", "scm:git:ssh://github.com/bitchat-sdk/android-sdk.git")
     set("POM_LICENCE_NAME", "The Unlicense")
     set("POM_LICENCE_URL", "https://unlicense.org")
-    set("POM_DEVELOPER_ID", "permissionlesstech")
-    set("POM_DEVELOPER_NAME", "permissionlesstech")
+    set("POM_DEVELOPER_ID", "bitchat-sdk")
+    set("POM_DEVELOPER_NAME", "bitchat-sdk")
 }
