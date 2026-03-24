@@ -16,6 +16,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v3
       - name: Build
         run: ./gradlew build
@@ -30,6 +31,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v3
       - name: Publish to Maven Central
         run: ./gradlew :protocol-core:publish :nostr:publish
