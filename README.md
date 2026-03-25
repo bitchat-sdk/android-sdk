@@ -1,5 +1,9 @@
 # bitchat-android-sdk
 
+[![Android API 26+](https://img.shields.io/badge/Android-API%2026%2B-green)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.x-purple)](https://kotlinlang.org)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](https://unlicense.org)
+
 Android SDK — BitChat binary protocol and Nostr transport for Android.
 
 Two Gradle modules, published separately to Maven Central:
