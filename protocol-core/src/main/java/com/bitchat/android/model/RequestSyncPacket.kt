@@ -1,7 +1,5 @@
 package com.bitchat.android.model
 
-import com.bitchat.android.sync.SyncDefaults
-
 /**
  * REQUEST_SYNC payload using GCS (Golomb-Coded Set) parameters.
  * TLV (type, length16, value), types:
@@ -43,7 +41,8 @@ data class RequestSyncPacket(
 
     companion object {
         // Receiver-side safety limit (configurable constant)
-        const val MAX_ACCEPT_FILTER_BYTES: Int = SyncDefaults.MAX_ACCEPT_FILTER_BYTES
+        /** Receiver-side hard cap to avoid DoS via oversized filters. */
+        const val MAX_ACCEPT_FILTER_BYTES: Int = 1024
 
         fun decode(data: ByteArray): RequestSyncPacket? {
             var off = 0
