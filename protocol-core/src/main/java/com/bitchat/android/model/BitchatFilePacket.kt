@@ -9,7 +9,7 @@ import java.nio.ByteOrder
  *  - 0x01: filename (UTF-8)
  *  - 0x02: file size (8 bytes, UInt64)
  *  - 0x03: mime type (UTF-8)
- *  - 0x04: content (bytes) €may appear multiple times for large files
+ *  - 0x04: content (bytes) ï¿½may appear multiple times for large files
  *
  * Length field for TLV is 2 bytes (UInt16, big-endian) for all TLVs.
  * For large files, CONTENT is chunked into multiple TLVs of up to 65535 bytes each.
@@ -67,7 +67,7 @@ data class BitchatFilePacket(
         buf.put(content)
 
         val result = buf.array()
-            return result
+        return result
         } catch (e: Exception) {
             android.util.Log.e("BitchatFilePacket", "Encoding failed: ${e.message}", e)
             return null
