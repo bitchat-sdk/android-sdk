@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "io.github.bitchat-sdk.protocol"
+    namespace = "com.bitchat.android.protocol"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
