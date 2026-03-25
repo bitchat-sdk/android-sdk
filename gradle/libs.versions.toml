@@ -96,7 +96,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
 
 # Cryptography
-bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
+bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 google-tink-android = { module = "com.google.crypto.tink:tink-android", version.ref = "tink-android" }
 
 # JSON
