@@ -57,7 +57,7 @@ class NostrTransport(
                 // Resolve favorite by full noise key or by short peerID fallback
                 var recipientNostrPubkey: String? = null
                 
-                // Resolve by peerID first (new peerID†’npub index), then fall back to noise key mapping
+                // Resolve by peerID first (new peerIDï¿½ï¿½npub index), then fall back to noise key mapping
                 recipientNostrPubkey = resolveNostrPublicKey(to)
                 
                 if (recipientNostrPubkey == null) {
@@ -486,10 +486,6 @@ class NostrTransport(
             try {
                 if (toRecipientHex.isEmpty()) return@launch
 
-                    TAG,
-                    "GeoDM: send PM -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}... geohash=$geohash"
-                )
-
                 // Build embedded BitChat packet without recipient peer ID
                 val embedded = NostrEmbeddedBitChat.encodePMForNostrNoRecipient(
                     content = content,
@@ -523,7 +519,7 @@ class NostrTransport(
      */
     private fun resolveNostrPublicKey(peerID: String): String? {
         try {
-            // 1) Fast path: direct peerID†’npub mapping (mutual favorites after mesh mapping)
+            // 1) Fast path: direct peerIDï¿½ï¿½npub mapping (mutual favorites after mesh mapping)
             com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkeyForPeerID(peerID)?.let { return it }
 
             // 2) Legacy path: resolve by noise public key association
