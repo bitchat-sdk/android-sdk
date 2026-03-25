@@ -12,11 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://raw.githubusercontent.com/guardianproject/gpmaven/master") }
     }
-    versionCatalogs {
-        create("libs") {
-            from(files("gradle/libs.versions.toml"))
-        }
-    }
 }
 
 rootProject.name = "bitchat-android-sdk"
