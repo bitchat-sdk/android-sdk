@@ -365,6 +365,11 @@ object BinaryProtocol {
                 buffer.getShort().toUShort().toUInt()  // 2 bytes for v1, convert to UInt
             }
 
+            if (payloadLength > com.bitchat.android.util.AppConstants.Protocol.MAX_PAYLOAD_LENGTH.toUInt()) {
+                Log.w("BinaryProtocol", "Payload length ${payloadLength} exceeds maximum allowed (${com.bitchat.android.util.AppConstants.Protocol.MAX_PAYLOAD_LENGTH})")
+                return null
+            }
+
             // Calculate expected total size
             var expectedSize = headerSize + SENDER_ID_SIZE + payloadLength.toInt()
             if (hasRecipient) expectedSize += RECIPIENT_ID_SIZE
@@ -467,7 +472,7 @@ object BinaryProtocol {
                 route = route
             )
             
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Log.e("BinaryProtocol", "Error decoding packet: ${e.message}")
             return null
         }
