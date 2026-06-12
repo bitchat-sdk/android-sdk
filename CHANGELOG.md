@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.1.2] — 2026-06-12
+
 ### Security
 - `RequestSyncPacket.decode()` now rejects Golomb-Rice parameter values above `RequestSyncPacket.MAX_P` (32), matching upstream iOS GCS input validation (upstream iOS PR #1331). Previously any `p ≥ 1` was accepted.
 
@@ -31,6 +33,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Maven Central publishing via `maven-publish` + `signing` plugins
 - Gradle version catalog (`libs.versions.toml`)
 
-[Unreleased]: https://github.com/bitchat-sdk/android-sdk/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/bitchat-sdk/android-sdk/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/bitchat-sdk/android-sdk/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/bitchat-sdk/android-sdk/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/bitchat-sdk/android-sdk/releases/tag/v0.1.0

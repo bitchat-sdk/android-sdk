@@ -8,7 +8,7 @@ plugins {
 // Shared publishing coordinates — override per-module if needed
 ext {
     set("GROUP_ID", "io.github.bitchat-sdk")
-    set("VERSION", "0.1.1")
+    set("VERSION", "0.1.2")
     set("POM_URL", "https://github.com/bitchat-sdk/android-sdk")
     set("POM_SCM_URL", "https://github.com/bitchat-sdk/android-sdk")
     set("POM_SCM_CONNECTION", "scm:git:github.com/bitchat-sdk/android-sdk.git")
