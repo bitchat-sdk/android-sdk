@@ -29,11 +29,16 @@ android {
             withJavadocJar()
         }
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
     implementation(libs.bundles.cryptography)
     implementation(libs.kotlinx.coroutines.android)
+    testImplementation(libs.junit)
 }
 
 afterEvaluate {

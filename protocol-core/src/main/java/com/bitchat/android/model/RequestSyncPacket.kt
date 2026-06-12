@@ -44,6 +44,12 @@ data class RequestSyncPacket(
         /** Receiver-side hard cap to avoid DoS via oversized filters. */
         const val MAX_ACCEPT_FILTER_BYTES: Int = 1024
 
+        /**
+         * Maximum accepted Golomb-Rice parameter. Mirrors upstream GCSFilter.maxP;
+         * values above this make no sense for a GCS filter and are rejected on decode.
+         */
+        const val MAX_P: Int = 32
+
         fun decode(data: ByteArray): RequestSyncPacket? {
             var off = 0
             var p: Int? = null
@@ -74,7 +80,7 @@ data class RequestSyncPacket(
             val pp = p ?: return null
             val mm = m ?: return null
             val dd = payload ?: return null
-            if (pp < 1 || mm <= 0L) return null
+            if (pp < 1 || pp > MAX_P || mm <= 0L) return null
             return RequestSyncPacket(pp, mm, dd)
         }
     }
